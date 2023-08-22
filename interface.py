@@ -2,6 +2,7 @@ import numpy as np
 import arcade
 import pymunk
 import pygame
+from objects import Triangle, Rectangle
 
 WIDTH = 1800
 HEIGHT = 150
@@ -9,6 +10,8 @@ y_center = 525
 button_size = 80
 space = pymunk.Space
 separation = 50
+green = arcade.color.MOSS_GREEN
+red = arcade.color.REDWOOD
 
 class Toolbar:
 
@@ -46,7 +49,20 @@ class Button:
     def disable(self):
         self.clicked=False
         self.background_color = arcade.color.WHITE
-
+        print("disabled")
     
     def draw(self):
         arcade.draw_rectangle_filled(self.x_center,self.y_center, button_size, button_size, self.background_color)
+        self.figure()
+
+    def figure(self):
+        if self.type == "triangle":
+            arcade.draw_polygon_outline(Triangle.collect_vertices(self.x_start+10, self.y_start-10, self.x_start+button_size-10, self.y_start-button_size+10), green, 2)
+        elif self.type == "rectangle":
+            arcade.draw_polygon_outline(Rectangle.collect_vertices(self.x_start+10, self.y_start-10, self.x_start+button_size-10, self.y_start-button_size+10), green, 2)
+        elif self.type == "ellipse":
+            arcade.draw_ellipse_outline(self.x_center, self.y_center, button_size-10, button_size-20, green, 2)
+        elif self.type == "line":
+            arcade.draw_line(self.x_start+10, self.y_start-10, self.x_start+button_size-10, self.y_start-button_size+10, green, 2)
+        elif self.type =="free" or self.type=="eraser" or self.type=="select":
+            arcade.draw_text(self.type, self.x_start, self.y_center, green, 12, button_size, "center")

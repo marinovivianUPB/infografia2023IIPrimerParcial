@@ -2,6 +2,12 @@ import numpy as np
 import arcade
 import math
 
+class Figure:
+    def __init__(self, color, thickness):
+        self.vertices=[]
+        self.color = color
+        self.thickness = thickness
+
 class Polygon:
     def __init__(self, vertices, color, thickness):
         self.vertices = vertices
@@ -23,8 +29,12 @@ class Polygon:
         else:
             arcade.draw_polygon_outline(self.vertices, self.color, self.thickness)
 
-class Triangle:
-    def collect_vertices(x_start, y_start, x_end, y_end):
+class Triangle(Figure):
+
+    def __init__(self, color, thickness):
+        super().__init__(self, color, thickness)
+
+    def collect_vertices(self, x_start, y_start, x_end, y_end):
         height  = abs(y_end-y_start)
         width = abs(x_end-x_start)
         if y_start > y_end:
@@ -40,10 +50,21 @@ class Triangle:
         vertices.append((x_start, y_start))
         vertices.append((x_start+width*sign_x, y_start))
         vertices.append((x_start+(width*sign_x)/2, y_start+height*sign_y))
+        self.vertices = vertices
         return vertices
+    
+    def draw(self):
+        if(len(self.vertices) == 1):
+            arcade.draw_point(self.vertices[0][0], self.vertices[0][1], self.color, self.thickness)
+        else:
+            arcade.draw_polygon_outline(self.vertices, self.color, self.thickness)
 
-class Rectangle:
-    def collect_vertices(x_start, y_start, x_end, y_end):
+class Rectangle(Figure):
+
+    def __init__(self, color, thickness):
+        super().__init__(self, color, thickness)
+
+    def collect_vertices(self, x_start, y_start, x_end, y_end):
         height  = abs(y_end-y_start)
         width = abs(x_end-x_start)
         if y_start > y_end:
@@ -60,4 +81,11 @@ class Rectangle:
         vertices.append((x_start+width*sign_x, y_start))
         vertices.append((x_start+(width*sign_x), y_start+height*sign_y))
         vertices.append((x_start, y_start+height*sign_y))
+        self.vertices = vertices
         return vertices
+    
+    def draw(self):
+        if(len(self.vertices) == 1):
+            arcade.draw_point(self.vertices[0][0], self.vertices[0][1], self.color, self.thickness)
+        else:
+            arcade.draw_polygon_outline(self.vertices, self.color, self.thickness)

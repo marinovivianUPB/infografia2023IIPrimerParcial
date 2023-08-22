@@ -2,7 +2,7 @@ import math
 import arcade
 import pymunk
 import pygame
-from objects import Polygon, Triangle
+from objects import Polygon, Triangle, Rectangle
 import interface
 from interface import Toolbar, Button
 WIDTH = 1800
@@ -23,6 +23,8 @@ class App(arcade.Window):
         self.toolbar = Toolbar()
         self.active = None
         self.drawing = False
+        self.pen_color = arcade.color.BLACK
+        self.pen_thickness = 3
     
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
@@ -32,13 +34,12 @@ class App(arcade.Window):
                 self.y_start = y
                 self.index+=1
                 self.draw=True
-                self.objects.append(Polygon([(self.x_start, self.y_start)], arcade.color.AERO_BLUE, 5))
+                self.objects.append(self.setFigure())
             else:
                 self.drawing=False
                 for button in self.toolbar.buttons:
                     if button.isClicked(x,y):
                         self.active = button
-                        print(self.active.type)
                     else:
                         button.disable()
     
@@ -47,7 +48,13 @@ class App(arcade.Window):
             self.x_end = x
             self.y_end = y
             self.objects[self.index].set_vertices(Triangle.collect_vertices(self.x_start, self.y_start, self.x_end, self.y_end))
-        
+
+    def setFigure(self):
+        if self.active.type == "triangle":
+            return Triangle(self.pen_color, self.pen_thickness)
+        elif self.active.type == "rectangle":
+            return Rectangle(self.pen_color, self.pen_thickness)
+
     def on_draw(self):
         arcade.start_render()
         self.toolbar.draw()
