@@ -2,7 +2,7 @@ import math
 import arcade
 import pymunk
 import pygame
-from objects import Polygon, Triangle, Rectangle
+from objects import Triangle, Rectangle, Ellipse, Line, Free
 import interface
 from interface import Toolbar, Button
 WIDTH = 1800
@@ -32,8 +32,8 @@ class App(arcade.Window):
                 self.drawing = True
                 self.x_start = x
                 self.y_start = y
-                self.index+=1
                 self.draw=True
+                self.clicked = True
                 self.objects.append(self.setFigure())
             else:
                 self.drawing=False
@@ -47,19 +47,32 @@ class App(arcade.Window):
         if buttons == arcade.MOUSE_BUTTON_LEFT and self.drawing:
             self.x_end = x
             self.y_end = y
-            self.objects[self.index].set_vertices(Triangle.collect_vertices(self.x_start, self.y_start, self.x_end, self.y_end))
+            if(self.active.type=="free"):
+                self.objects[-1].add_point(x, y)
+            else:
+                self.objects[-1].collect_vertices(self.x_start, self.y_start, self.x_end, self.y_end)
+    
+    def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
+        return super().on_mouse_motion(x, y, dx, dy)
 
     def setFigure(self):
         if self.active.type == "triangle":
             return Triangle(self.pen_color, self.pen_thickness)
         elif self.active.type == "rectangle":
             return Rectangle(self.pen_color, self.pen_thickness)
+        elif self.active.type == "ellipse":
+            return Ellipse(self.pen_color, self.pen_thickness)
+        elif self.active.type == "line":
+            return Line(self.pen_color, self.pen_thickness)
+        elif self.active.type == "free":
+            return Free(self.pen_color, self.pen_thickness)
 
     def on_draw(self):
         arcade.start_render()
-        self.toolbar.draw()
         for object in self.objects:
-            object.draw()
+            if object.setVertices:
+                object.draw()
+        self.toolbar.draw()
 
 
 def main():

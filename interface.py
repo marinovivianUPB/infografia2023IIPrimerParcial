@@ -57,9 +57,13 @@ class Button:
 
     def figure(self):
         if self.type == "triangle":
-            arcade.draw_polygon_outline(Triangle.collect_vertices(self.x_start+10, self.y_start-10, self.x_start+button_size-10, self.y_start-button_size+10), green, 2)
+            self.icon = Triangle(green, 2)
+            self.icon.collect_vertices(self.x_start+10, self.y_start-10, self.x_start+button_size-10, self.y_start-button_size+10)
+            self.icon.draw()
         elif self.type == "rectangle":
-            arcade.draw_polygon_outline(Rectangle.collect_vertices(self.x_start+10, self.y_start-10, self.x_start+button_size-10, self.y_start-button_size+10), green, 2)
+            self.icon = Rectangle(green, 2)
+            self.icon.collect_vertices(self.x_start+10, self.y_start-10, self.x_start+button_size-10, self.y_start-button_size+10)
+            self.icon.draw()
         elif self.type == "ellipse":
             arcade.draw_ellipse_outline(self.x_center, self.y_center, button_size-10, button_size-20, green, 2)
         elif self.type == "line":
