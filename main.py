@@ -4,18 +4,18 @@ import pymunk
 import pygame
 from objects import Triangle, Rectangle, Ellipse, Line, Free
 import interface
-from interface import Toolbar, Button
+from interface import Toolbar, Button, Color_Box
 WIDTH = 1800
-HEIGHT = 600
+HEIGHT = 900
 TITLE = "Paint"
 space = pymunk.Space
 toolbar_height = interface.HEIGHT
-
+background_color = arcade.color.WHITE
 
 class App(arcade.Window):
     def __init__(self):
         super().__init__(WIDTH, HEIGHT, TITLE)
-        arcade.set_background_color(arcade.color.WHITE)
+        arcade.set_background_color(background_color)
         self.objects = []
         self.x_start=0
         self.y_start=0
@@ -42,12 +42,14 @@ class App(arcade.Window):
                         self.active = button
                     else:
                         button.disable()
+                for color in self.toolbar.colors:
+                    self.pen_color = color.isClicked(x,y,self.pen_color)
     
     def on_mouse_drag(self, x: int, y: int, dx: int, dy: int, buttons: int, modifiers: int):
         if buttons == arcade.MOUSE_BUTTON_LEFT and self.drawing:
             self.x_end = x
             self.y_end = y
-            if(self.active.type=="free"):
+            if(self.active.type=="free" or self.active.type=="eraser"):
                 self.objects[-1].add_point(x, y)
             else:
                 self.objects[-1].collect_vertices(self.x_start, self.y_start, self.x_end, self.y_end)
@@ -66,6 +68,8 @@ class App(arcade.Window):
             return Line(self.pen_color, self.pen_thickness)
         elif self.active.type == "free":
             return Free(self.pen_color, self.pen_thickness)
+        elif self.active.type == "eraser":
+            return Free(background_color, self.pen_thickness)
 
     def on_draw(self):
         arcade.start_render()
