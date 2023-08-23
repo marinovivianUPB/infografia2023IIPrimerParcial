@@ -1,7 +1,6 @@
 import numpy as np
 import arcade
 import pymunk
-import pygame
 from objects import Triangle, Rectangle
 
 WIDTH = 1800

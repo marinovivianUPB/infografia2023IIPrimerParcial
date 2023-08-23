@@ -1,6 +1,5 @@
 import numpy as np
 import arcade
-import math
 
 class Figure:
     def __init__(self, color, thickness):
