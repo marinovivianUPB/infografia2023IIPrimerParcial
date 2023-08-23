@@ -32,16 +32,16 @@ class App(arcade.Window):
                 self.y_start = y
                 self.draw=True
                 self.clicked = True
-                self.objects.append(self.setFigure())
+                self.objects.append(self.set_figure())
             else:
                 self.drawing=False
                 for button in self.toolbar.buttons:
-                    if button.isClicked(x,y):
+                    if button.is_clicked(x,y):
                         self.active = button
                 for color in self.toolbar.colors:
-                    self.pen_color = color.isClicked(x,y,self.pen_color)
+                    self.pen_color = color.is_clicked(x,y,self.pen_color)
                 for thickness in self.toolbar.thickness_buttons:
-                    if thickness.isClicked(x,y):
+                    if thickness.is_clicked(x,y):
                         self.pen_thickness = thickness.get_thickness()
     
     def on_mouse_drag(self, x: int, y: int, dx: int, dy: int, buttons: int, modifiers: int):
@@ -56,7 +56,7 @@ class App(arcade.Window):
     def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
         return super().on_mouse_motion(x, y, dx, dy)
 
-    def setFigure(self):
+    def set_figure(self):
         if self.active.type == "triangle":
             return Triangle(self.pen_color, self.pen_thickness)
         elif self.active.type == "rectangle":
@@ -73,7 +73,7 @@ class App(arcade.Window):
     def on_draw(self):
         arcade.start_render()
         for object in self.objects:
-            if object.setVertices:
+            if object.set_vertices:
                 object.draw()
         self.toolbar.draw()
 

@@ -63,7 +63,7 @@ class Button:
         self.clicked = False
         self.background_color = arcade.color.WHITE
 
-    def isClicked(self,x, y):
+    def is_clicked(self,x, y):
         if(x>self.x_start and x<(self.x_start+button_size) and y<self.y_start and y>(self.y_start-button_size)):
             self.clicked = not self.clicked
             if self.clicked:
@@ -107,7 +107,7 @@ class Color_Box:
         self.x_start = x_center-color_box_size/2
         self.y_start = y_center+color_box_size/2
     
-    def isClicked(self,x, y, color):
+    def is_clicked(self,x, y, color):
         if(x>self.x_start and x<(self.x_start+color_box_size) and y<self.y_start and y>(self.y_start-color_box_size)):
             return self.color[0]
         else:
@@ -132,7 +132,7 @@ class Thickness_Button:
 
         self.clicked = False
     
-    def isClicked(self,x, y):
+    def is_clicked(self,x, y):
         if(x>self.button_x_center-button_line_size/2 and x<(self.button_x_center+button_line_size/2) and y<self.button_y_center+button_line_size/2 and y>(self.button_y_center-button_line_size/2)):
             self.clicked = not self.clicked
             if self.clicked:

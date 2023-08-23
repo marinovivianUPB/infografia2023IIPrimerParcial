@@ -6,7 +6,7 @@ class Figure:
         self.vertices=[]
         self.color = color
         self.thickness = thickness
-        self.setVertices = False
+        self.set_vertices = False
 
 class Triangle(Figure):
 
@@ -14,7 +14,7 @@ class Triangle(Figure):
         super().__init__( color, thickness)
 
     def collect_vertices(self, x_start, y_start, x_end, y_end):
-        self.setVertices=True
+        self.set_vertices=True
         height  = abs(y_end-y_start)
         width = abs(x_end-x_start)
         if y_start > y_end:
@@ -45,7 +45,7 @@ class Rectangle(Figure):
         super().__init__( color, thickness)
 
     def collect_vertices(self, x_start, y_start, x_end, y_end):
-        self.setVertices=True
+        self.set_vertices=True
         height  = abs(y_end-y_start)
         width = abs(x_end-x_start)
         if y_start > y_end:
@@ -77,7 +77,7 @@ class Ellipse(Figure):
         super().__init__( color, thickness)
 
     def collect_vertices(self, x_start, y_start, x_end, y_end):
-        self.setVertices=True
+        self.set_vertices=True
         self.height  = abs(y_end-y_start)
         self.width = abs(x_end-x_start)
         if y_start > y_end:
@@ -95,7 +95,7 @@ class Ellipse(Figure):
         return vertices
     
     def draw(self):
-        if(not self.setVertices):
+        if(not self.set_vertices):
             arcade.draw_point(self.vertices[0][0], self.vertices[0][1], self.color, self.thickness)
         else:
             arcade.draw_ellipse_outline(self.vertices[0][0], self.vertices[0][1], self.width, self.height, self.color, self.thickness)
@@ -106,7 +106,7 @@ class Line(Figure):
         super().__init__( color, thickness)
 
     def collect_vertices(self, x_start, y_start, x_end, y_end):
-        self.setVertices=True
+        self.set_vertices=True
         vertices = []
         vertices.append((x_start, y_start))
         vertices.append((x_end, y_end))
@@ -126,7 +126,7 @@ class Free(Figure):
         self.points = []
     
     def add_point(self, x ,y):
-        self.setVertices=True
+        self.set_vertices=True
         self.points.append((x,y))
     
     def draw(self):
