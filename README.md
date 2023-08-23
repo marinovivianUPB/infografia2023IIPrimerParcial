@@ -12,3 +12,4 @@
     pip install arcade
     pip install numpy
   ```
+7. Ejecutar main.py
