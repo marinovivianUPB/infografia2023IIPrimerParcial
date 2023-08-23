@@ -18,16 +18,21 @@ red = arcade.color.REDWOOD
 class Toolbar:
 
     def __init__(self):
+        #herramientas
         functions = ["triangle", "rectangle", "ellipse", "line", "free", "eraser"]
         x_centers = [button_size*i+separation*(i-1) for i in range(1,7)]
         self.buttons = [Button(func, i) for func, i in zip(functions, x_centers)]
+        
+        #color
         self.colors=[]
         for i in range(3):
             self.colors+=self.define_colors(x_centers[-1], 900-50-30*i)
         self.colors[0].color = [(0,0,0)]
+
+        #grosor
         thick_values=[i for i in range(2,9,2)]
         y_values=[900-20-i-20*i for i in thick_values]
-        self.thickness_buttons=[Thickness_Button(val, 1800-60, i) for val, i in zip(thick_values, y_values)]
+        self.thickness_buttons=[Thickness_Button(val, 1800-100, i) for val, i in zip(thick_values, y_values)]
         
 
     def define_colors(self, start, y_center):

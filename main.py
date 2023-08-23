@@ -4,7 +4,7 @@ import pymunk
 import pygame
 from objects import Triangle, Rectangle, Ellipse, Line, Free
 import interface
-from interface import Toolbar, Button, Color_Box
+from interface import Toolbar, Button, Color_Box, Thickness_Button
 WIDTH = 1800
 HEIGHT = 900
 TITLE = "Paint"
