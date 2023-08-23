@@ -10,6 +10,7 @@ y_center = 900-75
 button_size = 80
 color_box_size=20
 line_size=60
+button_line_size=16
 space = pymunk.Space
 separation = 50
 green = arcade.color.MOSS_GREEN
@@ -30,9 +31,9 @@ class Toolbar:
         self.colors[0].color = [(0,0,0)]
 
         #grosor
-        thick_values=[i for i in range(2,9,2)]
-        y_values=[900-20-i-20*i for i in thick_values]
-        self.thickness_buttons=[Thickness_Button(val, 1800-100, i) for val, i in zip(thick_values, y_values)]
+        thick_values=[i for i in range(2,11,2)]
+        y_values=[900-20-i-8*i for i in thick_values]
+        self.thickness_buttons=[Thickness_Button(val, 1400-150, i) for val, i in zip(thick_values, y_values)]
         
 
     def define_colors(self, start, y_center):
@@ -70,6 +71,8 @@ class Button:
                 self.background_color = arcade.color.WHITE_SMOKE
             else:
                 self.background_color = arcade.color.WHITE
+        else:
+            self.disable()
         return self.clicked
 
     def disable(self):
@@ -100,7 +103,6 @@ class Button:
 class Color_Box:
     def __init__(self, red, green, blue, y_center, x_center):
         self.color = [(red,green,blue)]
-        print(self.color)
         self.y_center = y_center
         self.x_center = x_center
         self.x_start = x_center-color_box_size/2
@@ -121,6 +123,35 @@ class Thickness_Button:
         self.value=value
         self.x_start = x_center-line_size/2
         self.y_start = y_center
+
+        self.x_center=x_center
+        self.y_center=y_center
+
+        self.button_x_center=self.x_start-button_line_size
+        self.button_y_center=self.y_start
+        self.background_color = arcade.color.WHITE
+
+        self.clicked = False
+    
+    def isClicked(self,x, y):
+        if(x>self.button_x_center-button_line_size/2 and x<(self.button_x_center+button_line_size/2) and y<self.button_y_center+button_line_size/2 and y>(self.button_y_center-button_line_size/2)):
+            self.clicked = not self.clicked
+            if self.clicked:
+                self.background_color = arcade.color.WHITE_SMOKE
+            else:
+                self.background_color = arcade.color.WHITE
+        else:
+            self.disable()
+        return self.clicked
+
+    def disable(self):
+        self.clicked=False
+        self.background_color = arcade.color.WHITE
+    
+    def get_thickness(self):
+        return self.value
     
     def draw(self):
-        arcade.draw_line(self.x_start, self.y_start, self.x_start+line_size, self.y_start, arcade.color.BLACK, self.value)
+        arcade.draw_rectangle_filled(self.x_center, self.y_center, line_size, self.value, arcade.color.BLACK)
+        arcade.draw_rectangle_filled(self.button_x_center, self.button_y_center, button_line_size, button_line_size, self.background_color)
+        arcade.draw_rectangle_outline(self.button_x_center, self.button_y_center, button_line_size+1, button_line_size+1, arcade.color.BLACK, 1)

@@ -129,7 +129,6 @@ class Free(Figure):
     def add_point(self, x ,y):
         self.setVertices=True
         self.points.append((x,y))
-        print(self.points)
     
     def draw(self):
         for i in range(len(self.points)-1):

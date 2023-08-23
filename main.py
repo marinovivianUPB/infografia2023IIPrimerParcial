@@ -5,7 +5,7 @@ import pygame
 from objects import Triangle, Rectangle, Ellipse, Line, Free
 import interface
 from interface import Toolbar, Button, Color_Box, Thickness_Button
-WIDTH = 1800
+WIDTH = 1400
 HEIGHT = 900
 TITLE = "Paint"
 space = pymunk.Space
@@ -21,10 +21,10 @@ class App(arcade.Window):
         self.y_start=0
         self.index=-1
         self.toolbar = Toolbar()
-        self.active = None
         self.drawing = False
         self.pen_color = arcade.color.BLACK
-        self.pen_thickness = 3
+        self.pen_thickness = 2
+        self.active = self.toolbar.buttons[4]
     
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
@@ -40,10 +40,11 @@ class App(arcade.Window):
                 for button in self.toolbar.buttons:
                     if button.isClicked(x,y):
                         self.active = button
-                    else:
-                        button.disable()
                 for color in self.toolbar.colors:
                     self.pen_color = color.isClicked(x,y,self.pen_color)
+                for thickness in self.toolbar.thickness_buttons:
+                    if thickness.isClicked(x,y):
+                        self.pen_thickness = thickness.get_thickness()
     
     def on_mouse_drag(self, x: int, y: int, dx: int, dy: int, buttons: int, modifiers: int):
         if buttons == arcade.MOUSE_BUTTON_LEFT and self.drawing:
