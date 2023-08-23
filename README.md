@@ -13,3 +13,7 @@
     pip install numpy
   ```
 7. Ejecutar main.py
+### Descripción
+El presente proyecto es un programa de dibujo similar a paint hecho enteramente con la librería arcade de Python.  
+No se emulan todas las funcionalidades de paint, solamente el dibujo de figuras (triángulos, rectángulos, elipses y líneas rectas), el diujo libre, el borrado y el cambio de grosor de línea.  
+Los colores son seleccionados de manera aleatoria cada vez que se ejecuta main.py.
